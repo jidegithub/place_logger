@@ -14,8 +14,9 @@ const logs = require('./api/logs')
 const app = express();
 
 const db = process.env.MONGOLAB_AMBER_URI;
+const atlas = process.env.MONGOATLAS;
 
-mongoose.connect(db || process.env.MONGODB_URI_LOCAL, {
+mongoose.connect(atlas || process.env.MONGODB_URI_LOCAL, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useFindAndModify: false 
@@ -49,7 +50,6 @@ mongoose.connection.on('connected', () => {
 // () => {console.log('Connected to Database')}
 // )
     
-
 app.use(morgan('common'));
 app.use(helmet());
 app.use(cors({
@@ -63,7 +63,6 @@ if (process.env.NODE_ENV === 'production') {
 			res.sendFile(path.join(__dirname + '/client/build/index/html'))
 	})
 }
-
 
 //bodyparsing middleware to interprete the body of the request(data parsing)
 // there are other bodyparsers
