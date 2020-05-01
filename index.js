@@ -13,7 +13,7 @@ const logs = require('./api/logs')
 
 const app = express();
 
-const db = process.env.MONGODB_URL;
+const db = process.env.MONGOLAB_AMBER_URI;
 
 mongoose.connect(db || process.env.MONGODB_URI_LOCAL, {
     useUnifiedTopology: true,
