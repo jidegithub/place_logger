@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon src/index.js",
-    "lint": "eslint src ",
-    "heroku-postbuild": "cd src/client && npm install && yarn build"
+    "lint": "eslint ",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "keywords": [],
   "author": "",
