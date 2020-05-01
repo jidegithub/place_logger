@@ -53,8 +53,8 @@ mongoose.connection.on('connected', () => {
 app.use(morgan('common'));
 app.use(helmet());
 app.use(cors({
-		// origin: process.env.CORS_ORIGIN
-		origin: "https://mytravel-log.herokuapp.com/"
+	origin: process.env.CORS_ORIGIN || 'https://mytravel-log.herokuapp.com/'
+		// origin: "https://mytravel-log.herokuapp.com/"
 }));
 
 if (process.env.NODE_ENV === 'production') {
