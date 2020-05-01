@@ -54,9 +54,19 @@ mongoose.connection.on('connected', () => {
     
 app.use(morgan('common'));
 app.use(helmet());
+
+let whitelist = [process.env.CORS_ORIGIN, 'http://localhost:5000/', 'https://mytravel-log.herokuapp.com/']
 app.use(cors({
-	origin: process.env.CORS_ORIGIN || ' http://localhost:5000/' || 'https://mytravel-log.herokuapp.com/'
-		// origin: "https://mytravel-log.herokuapp.com/"
+	origin: function (origin, callback) {
+		if (whitelist.indexOf(origin) !== -1) {
+				callback(null, true)
+			} else {
+				callback(new Error('Not allowed by CORS'))
+			}
+		}
+	// origin: process.env.CORS_ORIGIN 
+	// origin: "https://mytravel-log.herokuapp.com/"
+	// origin: "http://localhost:5000/"
 }));
 
 if (process.env.NODE_ENV === 'production') {
