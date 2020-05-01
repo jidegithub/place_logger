@@ -13,11 +13,15 @@ const logs = require('./api/logs')
 
 const app = express();
 
-mongoose.connect(process.env.MONGODB_URI, {
+mongoose.connect(process.env.MONGODB_URI || process.env.MONGODB_URI_LOCAL, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useFindAndModify: false 
 });
+
+mongoose.connection.on('connected', () => {
+	console.log('Mongoose is connected');
+})
 
 // callback format
 // MongoClient.connect(connectionString, {
@@ -58,7 +62,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 
-//bodyparsing middleware to interprete the body of the request
+//bodyparsing middleware to interprete the body of the request(data parsing)
 // there are other bodyparsers
 // since  i am only going to be dealing with json, i se the below
 app.use(express.json());
