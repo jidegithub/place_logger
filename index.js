@@ -13,10 +13,11 @@ const logs = require('./api/logs')
 
 const app = express();
 
-const db = process.env.MONGOLAB_AMBER_URI;
-const atlas = process.env.MONGOATLAS;
 
-mongoose.connect(atlas || process.env.MONGODB_URI_LOCAL, {
+const db = process.env.MONGODB_URI_LOCAL;
+const atlas = process.env.MONGODB_URI
+
+mongoose.connect(atlas || db, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useFindAndModify: false 
@@ -44,6 +45,7 @@ mongoose.connection.on('connected', () => {
 //     console.log('Connected to Database')
 //     const db = client.db('travel_log')
 // })
+
 // const db = process.env.MONGODB_URL_AT;
 // mongoose.connect(db, 
 // { useNewUrlParser: true, useUnifiedTopology: true},
