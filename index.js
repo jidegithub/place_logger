@@ -13,11 +13,11 @@ const logs = require('./api/logs')
 
 const app = express();
 
-// mongoose.connect(process.env.DATABASE_URL, {
-//     useUnifiedTopology: true,
-//     useNewUrlParser: true,
-//     useFindAndModify: false 
-// });
+mongoose.connect(process.env.MONGODB_URI, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useFindAndModify: false 
+});
 
 // callback format
 // MongoClient.connect(connectionString, {
@@ -37,11 +37,11 @@ const app = express();
 //     console.log('Connected to Database')
 //     const db = client.db('travel_log')
 // })
-const db = process.env.MONGODB_URL;
-mongoose.connect(db, 
-{ useNewUrlParser: true, useUnifiedTopology: true},
-() => {console.log('Connected to Database')}
-)
+// const db = process.env.MONGODB_URL_AT;
+// mongoose.connect(db, 
+// { useNewUrlParser: true, useUnifiedTopology: true},
+// () => {console.log('Connected to Database')}
+// )
     
 
 app.use(morgan('common'));
@@ -50,12 +50,19 @@ app.use(cors({
     origin: process.env.CORS_ORIGIN
 }));
 
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static(path.join(__dirname, 'client/build')))
+	app.get('*', (req, res) => {
+			res.sendFile(path.join(__dirname + '/client/build/index/html'))
+	})
+}
 
 
 //bodyparsing middleware to interprete the body of the request
 // there are other bodyparsers
 // since  i am only going to be dealing with json, i se the below
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // app.get('/', (req, res) => {
 //     res.json({
@@ -73,12 +80,6 @@ app.use(middlewares.errorHandler);
 
 const port = process.env.PORT || 1337
 
-if(process.env.NODE_ENV === 'production'){
-    app.use(express.static(path.join(__dirname, 'client/build')))
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname + '/client/build/index/html'))
-    })
-}
 
 app.listen(port, () => {
     console.log(`listening at http://localhost:${port}`)
