@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const MongoClient = require('mongodb').MongoClient
+// const MongoClient = require('mongodb').MongoClient
 
 require('dotenv').config();
 
@@ -13,7 +13,9 @@ const logs = require('./api/logs')
 
 const app = express();
 
-mongoose.connect(process.env.MONGODB_URI || process.env.MONGODB_URI_LOCAL, {
+const db = process.env.MONGODB_URL;
+
+mongoose.connect(db || process.env.MONGODB_URI_LOCAL, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useFindAndModify: false 
@@ -51,7 +53,8 @@ mongoose.connection.on('connected', () => {
 app.use(morgan('common'));
 app.use(helmet());
 app.use(cors({
-    origin: process.env.CORS_ORIGIN
+		// origin: process.env.CORS_ORIGIN
+		origin: "https://mytravel-log.herokuapp.com/"
 }));
 
 if (process.env.NODE_ENV === 'production') {
