@@ -1,6 +1,6 @@
 const axios = require('axios');
-// const API_URL = 'http://localhost:1337';
-const API_URI = 'http://localhost:5000';
+// const API_URI = 'http://localhost:1337';
+const API_URI = 'https://travel-catalogue.herokuapp.com'
 
 export async function listLogEntries(){
     const response = await axios.get(`${API_URI}/api/logs`);
